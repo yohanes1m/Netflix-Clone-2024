@@ -1,41 +1,67 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css";
 import NetflixLogo from "../../assets/images/NetflixLogo.png";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50); // Change 50 to your desired scroll threshold
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <div className="header_outer_container">
-      <div className="header_container">
-        <div className="header_left">
-          <ul>
-            <li>
-              <img src={NetflixLogo} alt="Netflix Logo" width="100" />
-            </li>
-            {/* <li>Netflix</li> */}
-            <li>Home</li>
-            <li>TVShows</li>
-            <li>Movies</li>
-            <li>Latest</li>
-            <li>MyList</li>
-            <li>Browse by Languages</li>
-          </ul>
-        </div>
-        <div className="header_right">
-          <ul>
-            <li>
+    <Navbar
+      expand="lg"
+      className={`header_outer_container mx-0 ${
+        scrolled ? "bg-dark navbar-dark" : "bg-tranparent navbar-light"
+      }`}
+    >
+      <Container className="d-flex align-items-center justify-content-betweeen mx-0 w-100">
+        <Navbar.Brand href="#home" className="">
+          <img src={NetflixLogo} alt="Netflix Logo" width="100" />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav header_container bg-black text-white-50 bg-dark">
+          <Nav className="me-auto ms-3 expandClass">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">TVShows</Nav.Link>
+            <Nav.Link href="#link">Movies</Nav.Link>
+            <Nav.Link href="#link">Latest</Nav.Link>
+            <Nav.Link href="#link">MyList</Nav.Link>
+            <Nav.Link href="#link">Browse by Languages</Nav.Link>
+          </Nav>
+          <Nav className="me-auto d-none  d-lg-flex  justify-content-between ">
+            <Nav.Link href="#link">
+              {" "}
               <SearchIcon />
-            </li>
-            <li><NotificationsNoneIcon /></li>
-            <li><AccountBoxIcon /></li>
-            <li><ArrowDropDownIcon /></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+            </Nav.Link>
+            <Nav.Link href="#link">
+              <NotificationsNoneIcon />
+            </Nav.Link>
+            <Nav.Link href="#link">
+              <AccountBoxIcon />
+            </Nav.Link>
+            <Nav.Link href="#link">
+              <ArrowDropDownIcon />
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Header;
+export default Header;  

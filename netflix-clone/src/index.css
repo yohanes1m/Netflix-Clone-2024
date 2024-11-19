@@ -82,5 +82,5 @@ button:focus-visible {
   box-sizing: border-box;
 }
 body {
-  background: #111;
+  background: #111 !important;
 }
