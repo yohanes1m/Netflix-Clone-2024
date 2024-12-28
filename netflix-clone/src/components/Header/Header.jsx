@@ -29,19 +29,19 @@ function Header() {
         scrolled ? "bg-dark navbar-dark" : "bg-tranparent navbar-light"
       }`}
     >
-      <Container className="d-flex align-items-center justify-content-betweeen mx-0 w-100">
-        <Navbar.Brand href="#home" className="">
+      <Container className="d-flex align-items-center justify-content-between mx-auto header_container">
+        <Navbar.Brand href="/" className="">
           <img src={NetflixLogo} alt="Netflix Logo" width="100" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav header_container bg-black text-white-50 bg-dark">
           <Nav className="me-auto ms-3 expandClass">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">TVShows</Nav.Link>
-            <Nav.Link href="#link">Movies</Nav.Link>
-            <Nav.Link href="#link">Latest</Nav.Link>
-            <Nav.Link href="#link">MyList</Nav.Link>
-            <Nav.Link href="#link">Browse by Languages</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="#">TVShows</Nav.Link>
+            <Nav.Link href="#">Movies</Nav.Link>
+            <Nav.Link href="#">Latest</Nav.Link>
+            <Nav.Link href="#">MyList</Nav.Link>
+            <Nav.Link href="#">Browse by Languages</Nav.Link>
           </Nav>
           <Nav className="me-auto d-none  d-lg-flex  justify-content-between ">
             <Nav.Link href="#link">

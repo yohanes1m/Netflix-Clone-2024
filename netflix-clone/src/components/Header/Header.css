@@ -14,7 +14,7 @@
   transition-timing-function: ease-in;
   z-index: 1;
   /* background-color: red; */
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 400;
   transition: background-color 1.5s;
 }
@@ -25,7 +25,7 @@
   background-color: rgb(20, 20, 20);
 }
 .header_container {
-  width: 140% !important;
+  width: 180% !important;
   display: flex;
   justify-content: space-between !important;
   align-items: center;
@@ -53,4 +53,12 @@
   .expandClass {
     background-color: black;
   }
+}
+@media (max-width: 768px) {
+  .header_container{
+    padding: 0 !important;
+    width: 100% !important;
+    max-width:  100% !important;
+  }
+
 }

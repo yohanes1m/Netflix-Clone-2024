@@ -29,3 +29,82 @@
 	color: white;
 }
 
+
+
+
+
+
+
+
+
+
+/* Modal overlay covering the entire screen */
+.row__modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+  }
+  
+  /* Modal content box */
+  .row__modalContent {
+	background-color: #111;
+	color: white;
+	width: 80%;
+	max-width: 800px;
+	padding: 20px;
+	border-radius: 10px;
+	position: relative;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Close button */
+  .row__closeButton {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: red;
+	color: white;
+	border: none;
+	padding: 10px;
+	cursor: pointer;
+	font-size: 18px;
+	border-radius: 50%;
+  }
+  
+  /* Image or trailer container */
+  .row__imageContainer img,
+  .row__imageContainer iframe {
+	width: 100%;
+	max-height: 400px;
+	object-fit: contain;
+	margin-bottom: 20px;
+  }
+  
+  /* Movie details */
+  .row__details {
+	text-align: center;
+  }
+  
+  .row__playButton {
+	margin-top: 10px;
+	padding: 10px 20px;
+	background-color: #0073e6;
+	color: white;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	border-radius: 5px;
+  }
+  
+  .row__playButton:disabled {
+	background-color: grey;
+	cursor: not-allowed;
+  }
+  

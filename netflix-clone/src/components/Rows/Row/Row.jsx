@@ -1,44 +1,57 @@
 import React, { useEffect, useState } from "react";
 import "./Row.css";
 import axios from "../../../utils/axios";
-import movieTrailer from 'movie-trailer';
-import YouTube from 'react-youtube';
+import movieTrailer from "movie-trailer";
+import YouTube from "react-youtube";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovie] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [trailerUrl, setTrailerUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const base_url = "https://image.tmdb.org/t/p/original";
 
   useEffect(() => {
     (async () => {
       try {
-        // console.log(fetchUrl)
         const request = await axios.get(fetchUrl);
-        // console.log(request)
         setMovie(request.data.results);
       } catch (error) {
-        // console.log("error", error);
+        console.log("Error fetching movies:", error);
       }
     })();
   }, [fetchUrl]);
 
-  const handleClick = (movie) => {
-    if (trailerUrl) {
-      setTrailerUrl("");
-    } else {
-      movieTrailer(movie?.title || movie?.name || movie?.original_name).then(
-        (url) => {
-        //   console.log(url);
-          const urlParams = new URLSearchParams(new URL(url).search);
-        //   console.log(urlParams);
-        //   console.log(urlParams.get("v"));
-          setTrailerUrl(urlParams.get("v"));
-        }
-      );
-    }
+  const handleImageClick = (movie) => {
+    setSelectedMovie(movie);
+    setTrailerUrl(""); // Reset trailer if a new movie is selected
   };
-  
+
+  const handlePlayTrailer = () => {
+    setIsLoading(true); // Show "Please Wait..." on the button
+    movieTrailer(
+      selectedMovie?.title ||
+        selectedMovie?.name ||
+        selectedMovie?.original_name
+    )
+      .then((url) => {
+        const urlParams = new URLSearchParams(new URL(url).search);
+        setTrailerUrl(urlParams.get("v"));
+      })
+      .catch(() => {
+        toast.error("Trailer not found for this movie.");
+      });
+
+    setIsLoading(false); // Remove "Please Wait..." after fetching
+  };
+
+  const handleCloseDescription = () => {
+    setSelectedMovie(null); // Close the modal
+  };
+
   const opts = {
     height: "390",
     width: "100%",
@@ -53,7 +66,7 @@ function Row({ title, fetchUrl, isLargeRow }) {
       <div className="row__posters">
         {movies?.map((movie, index) => (
           <img
-            onClick={() => handleClick(movie)}
+            onClick={() => handleImageClick(movie)}
             key={index}
             src={`${base_url}${
               isLargeRow ? movie.poster_path : movie.backdrop_path
@@ -63,9 +76,49 @@ function Row({ title, fetchUrl, isLargeRow }) {
           />
         ))}
       </div>
-      <div style={{ padding: "40px" }}>
-        {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
-      </div>  
+
+      {selectedMovie && (
+        <div className="row__modal">
+          <div className="row__modalContent">
+            <button
+              className="row__closeButton"
+              onClick={handleCloseDescription}
+            >
+              X
+            </button>
+            <div className="row__imageContainer">
+              {trailerUrl ? (
+                <YouTube videoId={trailerUrl} opts={opts} />
+              ) : (
+                <img
+                  src={`${base_url}${
+                    selectedMovie.poster_path || selectedMovie.backdrop_path
+                  }`}
+                  alt={selectedMovie.name}
+                  className="row__selectedImage"
+                />
+              )}
+            </div>
+            <div className="row__details">
+              <h2>
+                {selectedMovie.title ||
+                  selectedMovie.name ||
+                  selectedMovie.original_name}
+              </h2>
+              <p>{selectedMovie.overview || "No description available."}</p>
+              <button
+                onClick={handlePlayTrailer}
+                className="row__playButton"
+                disabled={isLoading}
+              >
+                {isLoading ? "Please Wait..." : "Play Trailer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <ToastContainer />
     </div>
   );
 }
